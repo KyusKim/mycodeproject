@@ -1,7 +1,7 @@
 var tabs = ["파이썬","자바","자바 스크립트"];
 document.write("<div id='tabs'>")
 for (var i=0;i<tabs.length;i++) {
-    document.write("<a href='/"+tabs[i]+"/main.html'>"+tabs[i]+"</a>");
+    document.write("<a href='/mycodeproject/"+tabs[i]+"/main.html'>"+tabs[i]+"</a>");
     if (i !== tabs.length-1) {document.write("  |  ")}
 }
 document.write("</div>")
