@@ -1,4 +1,4 @@
-var tabs = ["파이썬","자바","자바 스크립트"];
+var tabs = ["python","java","java script"];
 document.write("<div id='tabs'>")
 var tabspath = '';
 if (window.location.pathname != '/mycodeproject/') {tabspath+='.';}
