@@ -1,0 +1,2 @@
+#grid {display:grid;grid-template-columns: 150px 1fr;}
+#left {border-right:solid rgb(100,100,100) 2px; line-height: 150%; margin:0px}
