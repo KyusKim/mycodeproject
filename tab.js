@@ -1,11 +1,8 @@
 var tabs = {"파이썬":"python","자바":"java","자바 스크립트":"java script"};
 document.write("<div id='tabs'>")
-var tabspath = '';
-if (window.location.pathname != '/mycodeproject/') {tabspath+='.';}
-tabspath += './';
 var j=0;
 for (var i in tabs) {
-    document.write("<a href='"+tabspath+tabs[i]+"/main.html'>"+i+"</a>");
+    document.write("<a href='https://kyuskim.github.io/mycodeproject/"+tabs[i]+"/main.html'>"+i+"</a>");
     if (j !== tabs.length-1) {document.write("  |  ");}
     j++;
 }
