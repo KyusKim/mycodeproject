@@ -13,18 +13,276 @@
     <div id="writingplace">
         <h1>자바 심플 블로그</h1>
         <p>
-            
+            이 작업은 자바를 통해 처음으로 만들어본 것입니다.<br>
+            주 기능은 블로그처럼, 글을 작성하면 목록이 갱신되고, 그 글을 클릭하면 글을 수정할 수 있게 됩니다.<br>
+            또한 작성한 글을 폴더에 저장되는 방식입니다. 글 삭제 버튼을 누르면<br>
+            글 삭제 모드로 전환되며, 그 상태에서 글을 클릭하면 글이 삭제되고<br>
+            글 삭제 버튼을 다시 누르는 것을 통해 원래대로 돌아오게 됩니다.
         </p>
         <p>
-            <iframe src="">
-                현재 사용하는 브라우저는 이 동영상 시청을 지원하지 않습니다.
-            </iframe>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/q9n7SYXUqqk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
         </p>
         <p>
-            <a href="sample.html" download="example.txt">파일 다운로드</a>
+            <a href="./sampleblog.zip" download="Kyus_simpleblog.zip">파일 다운로드</a>
         </p>
         <p>
-            코드
+            package simpleblog;
+import java.awt.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.awt.event.*;
+import javax.swing.*;
+import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.io.IOException;
+
+class txtread {
+	public static String read(String filepath) throws IOException {
+		File file = new File(filepath);
+		BufferedReader br = new BufferedReader(new FileReader(file,Charset.forName("UTF-8")));
+		String str;
+		String text="";
+        while ((str = br.readLine()) != null) {
+            text=text+str+"\n";
+        }
+        br.close();
+		return text;
+	}
+	public static void write(String filepath,String text) throws IOException {
+		File file = new File(filepath);
+		if (!file.exists()) {file.createNewFile();}
+		BufferedWriter bw = new BufferedWriter(new FileWriter(file,Charset.forName("UTF-8")));
+		bw.write(text);
+        bw.close();
+	}
+}
+
+class myframe extends JFrame {
+	protected static int deletetext;
+	protected static int id;
+	protected static int idnum;
+	protected static String date;
+	protected static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+	protected static LocalDate now = LocalDate.now();
+	static JTextArea txt = new JTextArea(40,40);
+	protected static String path = System.getProperty("user.dir");
+	protected static File texts = new File(path+"\\texts");
+	protected static File[] textslist;
+	protected static JButton[] textbtn;
+	protected static JLabel mainlabel;
+	protected static JScrollPane mainscroll;
+	protected static JScrollPane writescroll;
+	public static void mtow() {
+		mainpan.remove(mainpan1);
+		mainpan3.remove(mainpan2);
+		if (textslist.length>0) {for (JButton i : textbtn) {mainpan2.remove(i);}}
+		mainpan.remove(mainpan3);
+		mainpan3.remove(mainlabel);
+		mainpan3.remove(mainscroll);
+		mainpan.add(writepan1);
+		mainpan.add(writepan2);
+		mainpan.revalidate(); mainpan.repaint();
+	}
+	public static void wtom() throws IOException {
+		if (!texts.exists()) {texts.mkdir();}
+		FilenameFilter textfilter = new FilenameFilter() {
+		    public boolean accept(File f, String name) {
+		        return name.endsWith(".txt");}};
+		textslist = texts.listFiles(textfilter);
+		Arrays.sort(textslist);
+		mp2();
+		mainpan.remove(writepan1);
+		mainpan.remove(writepan2);
+		mainpan.add(mainpan1);
+		mainpan.add(mainpan3);
+		mainpan.revalidate(); mainpan.repaint();
+	}
+	static JPanel mainpan = new JPanel();
+	static JPanel mainpan1 = new JPanel();
+	static JPanel mainpan2 = new JPanel();
+	static JPanel mainpan3 = new JPanel();
+	static JPanel writepan1 = new JPanel();
+	static JPanel writepan2 = new JPanel();
+	public static void mp1()  {
+		mainpan1.setPreferredSize(new Dimension(600,100));
+		mainpan1.setLayout(new GridLayout(1,3));
+		JButton mainbtn1 = new JButton("새  글");
+		JButton mainbtn2 = new JButton("글 삭제");
+		JButton mainbtn3 = new JButton("종  료");
+		JButton mainbtn4 = new JButton("삭제 끝내기");
+		mainbtn1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (textslist.length == 0) {
+					id = 0;
+				}
+				else {
+					int[] existid = new int[textslist.length]; 
+					for (int i=0; i<textslist.length;i++)
+					{existid[i]=Integer.parseInt(textslist[i].toString().replace(texts.toString()+"\\","").replace(".txt",""));}
+					Arrays.sort(existid);
+					id = existid[existid.length-1]+1;
+				}
+				date = now.format(formatter)+"\t"+now.format(formatter);
+				mtow();
+			}
+		});
+		mainbtn2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				deletetext = 1;
+				mainpan1.remove(mainbtn2);
+				mainpan1.add(mainbtn4);
+				mainpan.revalidate();
+				mainpan.repaint();
+			}
+		});
+		mainbtn3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int exit = JOptionPane.showConfirmDialog(null, "정말로 종료하시겠습니까?");
+				if (exit == 0) {System.exit(0);}
+			}
+		});
+		mainbtn4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				deletetext = 0;
+				mainpan1.remove(mainbtn4);
+				mainpan1.add(mainbtn2);
+				mainpan.revalidate();
+				mainpan.repaint();
+			}
+		});
+		mainpan1.add(mainbtn1);
+		mainpan1.add(mainbtn3);
+		mainpan1.add(mainbtn2);
+	}
+	public static void mp2() throws IOException {
+		mainpan3.setPreferredSize(new Dimension(500,600));
+		mainpan2.setPreferredSize(new Dimension(450,(textslist.length+1)*100));
+		mainlabel = new JLabel("전체 글 : "+textslist.length);
+		mainpan3.add(mainlabel);
+		if (textslist.length>0) {
+			textbtn = new JButton[textslist.length];
+			for (int i=0; i<textslist.length;i++) {
+				String texttext=txtread.read(textslist[i].toString());
+				String[] texttexttext = texttext.split("\n");
+				textbtn[i] = new JButton(texttexttext[1]+"\n"+"작성 날짜 : "+texttexttext[0]);
+				mainpan2.add(textbtn[i]);
+				textbtn[i].addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						for (int j = 0; j<textbtn.length; j++) {
+							if (e.getSource()==textbtn[j]) {
+								id=Integer.parseInt(textslist[j].toString().replace(texts+"\\", "").replace(".txt", ""));
+								idnum = j;
+							};
+						}
+						if (deletetext != 1) {
+							date = texttexttext[0];
+							String existtext = texttexttext[1];
+							for (int iii=2; iii<texttexttext.length; iii++) {existtext=existtext+"\n"+texttexttext[iii];}
+							mtow();
+							txt.setText(existtext);
+							mainpan.revalidate();
+							mainpan.repaint();
+						}
+						else {
+							try {Files.delete(textslist[idnum].toPath());}
+							catch (IOException e1) {e1.printStackTrace();}
+							if (!texts.exists()) {texts.mkdir();}
+							FilenameFilter textfilter = new FilenameFilter() {
+							    public boolean accept(File f, String name) {
+							        return name.endsWith(".txt");}};
+							textslist = texts.listFiles(textfilter);
+							mainpan3.remove(mainpan2);
+							mainpan.remove(mainpan3);
+							for (JButton i : textbtn) {mainpan2.remove(i);}
+							mainpan3.remove(mainlabel);
+							mainpan3.remove(mainscroll);
+							try {mp2();}
+							catch (IOException e1) {e1.printStackTrace();}
+							mainpan.add(mainpan3);
+							mainpan.revalidate(); mainpan.repaint();
+							}
+						}
+					});
+				textbtn[i].setPreferredSize(new Dimension(450,100));
+				}
+			}
+		mainpan3.add(mainpan2);
+		mainscroll = new JScrollPane(mainpan2,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		mainpan3.add(mainscroll);
+		mainscroll.setPreferredSize(new Dimension(450,550));
+		mainpan.add(mainpan3);
+	}
+	public static void wp1() {
+		JButton writebtn1 = new JButton("저  장");
+		JButton writebtn2 = new JButton("돌아가기");
+		writebtn1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int save = JOptionPane.showConfirmDialog(null, "저장 하시겠습니까?");
+				if (save == 0) {
+					String[] datearr = date.split("\t");
+					datearr[1] = now.format(formatter);
+					date = datearr[0]+"\t"+datearr[1];
+					String savetext = date+"\n"+txt.getText();
+					try {txtread.write(texts+"\\"+Integer.toString(id)+".txt", savetext);}
+					catch (IOException e1) {e1.printStackTrace();}
+					txt.setText("");
+					try {wtom();}
+					catch (IOException e1) {e1.printStackTrace();}
+				}
+			}
+		});
+		writebtn2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int back = JOptionPane.showConfirmDialog(null, "글을 저장하지 않고 돌아가시겠습니까?");
+				if (back == 0) {
+					txt.setText("");
+					try {wtom();}
+					catch (IOException e1) {e1.printStackTrace();}
+				}
+			}
+		});
+		writepan1.add(writebtn1);
+		writepan1.add(writebtn2);
+	}
+	public static void wp2() throws IOException {
+		writepan2.add(txt);
+		writescroll = new JScrollPane(txt,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		writepan2.add(writescroll);
+		mainpan.revalidate();
+		mainpan.repaint();
+	}
+	
+	public myframe() throws IOException {
+		add(mainpan);
+		mainpan.add(mainpan1);
+		deletetext = 0;
+		setTitle("Simple blog");
+		setSize(600, 800);
+		setVisible(true);
+		setLocationRelativeTo(null);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		if (!texts.exists()) {texts.mkdir();}
+		FilenameFilter textfilter = new FilenameFilter() {
+		    public boolean accept(File f, String name) {
+		        return name.endsWith(".txt");}};
+		textslist = texts.listFiles(textfilter);
+		Arrays.sort(textslist);
+		mp1();
+		mp2();
+		wp1();
+		wp2();
+		revalidate();
+		repaint();
+	}
+}
+public class simpleblogmain {
+	public static void main(String[] args) throws IOException {
+		new myframe();
+	}
+}
+
         </p>
     </div>
 </div>
