@@ -26,7 +26,8 @@
             <a href="./sampleblog.zip" download="Kyus_simpleblog.zip">파일 다운로드</a>
         </p>
         <p>
-            package simpleblog;
+            <script>
+				var codes = `package simpleblog;
 import java.awt.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -281,7 +282,9 @@ public class simpleblogmain {
 	public static void main(String[] args) throws IOException {
 		new myframe();
 	}
-}
+}`
+				document.write(codes);
+			</script>
 
         </p>
     </div>
