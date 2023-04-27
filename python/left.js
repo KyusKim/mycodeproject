@@ -1,5 +1,5 @@
 document.write("<ul id='left'>");
-var pythons = {"gif 만들기":"gif maker","GUI 연습":"gui practice","로그인 연습":"login practice"};
+var pythons = {"개인 관리 어플":"personal_manage","GUI 연습":"gui practice"};
 for (var i in pythons){
     if (window.location.pathname.indexOf(pythons[i])>=0) {
         document.write("<li id='selected'><a href='./"+pythons[i]+".html'>"+i+"</a></li>");}
