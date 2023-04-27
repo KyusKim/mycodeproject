@@ -3,4 +3,6 @@
 #left a{text-decoration-line:none; color:gray}
 #left #selected{background-color:rgb(100,100,100);color:black}
 #left a:hover {background-color:rgb(100,100,100);color:black}
-@media(max-width:1000px){#grid{display:block}}
+@media(max-width:700px){#grid{display:block}}
+#writingplace{padding:20px}
+#writingplace h1{border-bottom:solid rgb(100,100,100) 2px}
