@@ -1,17 +1,16 @@
-<html><head><meta charset="utf-8" /><script src="../siteTitle.js"></script><script src="../tab.js"></script><link rel="stylesheet" href="../grid.css"><title>JavaScript projects</title><script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>     <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script></head><body><div id="grid"><script src="./left.js"></script><div id="root"><p><h1>naver 로그인</h1></p><p>이 작업은 OAuth2의 간단한 실습으로 naver로그인을 해본 것입니다.<br>로그인에 성공하면 회원 이름이 alert으로 표시됩니다.</p><p><div id="naver_id_login"></div></p><p><script type="text/javascript">         var naver_id_login = new naver_id_login("H2bEzx2hdSHNlb4M85h2", "https://kyuskim.github.io/mycodeproject/java%20script/naver.html");         var state = naver_id_login.getUniqState();         naver_id_login.setButton("white", 2,40);         naver_id_login.setDomain("https://kyuskim.github.io/mycodeproject");         naver_id_login.setState(state);         naver_id_login.setPopup();         naver_id_login.init_naver_id_login();     </script></p></div></div>
+<html><head><meta charset="utf-8" /><script src="../siteTitle.js"></script><script src="../tab.js"></script><link rel="stylesheet" href="../grid.css"><title>JavaScript projects</title><script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>     <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script></head><body><div id="grid"><script src="./left.js"></script><div id="root"><p><h1>naver 로그인</h1></p><p>이 작업은 OAuth2의 간단한 실습으로 naver로그인을 해본 것입니다.<br>로그인에 성공하면 회원 이름이 alert으로 표시됩니다.</p><p><div id="naver_id_login"></div></p><p><script type="text/javascript">         var naver_id_login = new naver_id_login("H2bEzx2hdSHNlb4M85h2", "https://kyuskim.github.io/mycodeproject/java%20script/naver.html");         var state = naver_id_login.getUniqState();         naver_id_login.setButton("white", 2,40);         naver_id_login.setDomain("https://kyuskim.github.io/mycodeproject");         naver_id_login.setState(state);         naver_id_login.setPopup();         naver_id_login.init_naver_id_login();     </script></p><p><a href="./naver.zip" download="Kyus_naver.zip">파일 다운로드</a></p></div></div>
 <script type="text/javascript">
-	// 네이버 사용자 프로필 조회 이후 프로필 정보를 처리할 callback function
-	function naverSignInCallback() {
-		// naver_id_login.getProfileData('프로필항목명');
-		// 프로필 항목은 개발가이드를 참고하시기 바랍니다.
-		alert(naver_id_login.getProfileData('email'));
-		alert(naver_id_login.getProfileData('nickname'));
-		alert(naver_id_login.getProfileData('age'));
-	}
-
-
-	// 네이버 사용자 프로필 조회
-	naver_id_login.get_naver_userprofile(naverSignInCallback());
+  var naver_id_login = new naver_id_login("H2bEzx2hdSHNlb4M85h2", "https://kyuskim.github.io/mycodeproject/java%20script/naver.html");
+  // 접근 토큰 값 출력
+  alert(naver_id_login.oauthParams.access_token);
+  // 네이버 사용자 프로필 조회
+  naver_id_login.get_naver_userprofile(naverSignInCallback());
+  // 네이버 사용자 프로필 조회 이후 프로필 정보를 처리할 callback function
+  function naverSignInCallback() {
+    alert(naver_id_login.getProfileData('email'));
+    alert(naver_id_login.getProfileData('nickname'));
+    alert(naver_id_login.getProfileData('age'));
+  }
 </script>
-<p><a href="./naver.zip" download="Kyus_naver.zip">파일 다운로드</a></p>
+
 </body></html>
