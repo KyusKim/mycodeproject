@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>Arduino projects</title>
+    <script src="../siteTitle.js"></script>
+    <script src="../tab.js"></script>
+    <link rel="stylesheet" href="../grid.css">
+</head>
+<body>
+<div id="grid">
+    <script src="./left.js"></script>
+    <div id="writingplace">
+        <h1>아두이노3 - 라이브러리</h1>
+        <p>
+            이 작업은 다른 교보재없이 스스로 라이브러리를 찾아 처음으로 만들어본 것입니다.<br>
+            기능은 온습도가 표시되는 자동 쓰레기통을 목표로 했고, 그에 필요한 기능만을 구현해본 것입니다.<br>
+			먼저 초음파 센서를 통해 물체와의 거리(최대 4m)를 측정하고,<br>
+            그 거리가 50cm보다 가까워졌을 경우 서보 모터가 동작하며 반 시계 방향으로 회전합니다.<br>
+            이후 다시 물체가 50cm보다 멀어질 경우 서보 모터가 동작하여 시계 방향으로 회전합니다.<br>
+            그리고 매 순간마다 온도와 습도를 온습도 센서를 통해 측정하고,<br>
+            그 결과를 LCD모니터를 통해 보여줍니다.<br><br>
+            각 작업은 사용할 모듈(초음파 센서, 서브 모터 등)의 이름을 알아보고<br>
+            이를 아두이노 IDE의 라이브러리 매니저를 통해 라이브러리를 구한 뒤,<br>
+            필요한 순서 및 작업을 코딩해서 수행되었습니다.<br><br>
+            이 작업에 사용된 라이브러리는 총 4개로, 다음과 같습니다.<br>
+            초음파 센서(HC-SR04) : HCSR04 by Martin Sosic<br>
+            서보모터 : Servo by Michael Margolis, Arduino<br>
+            온습도 센서(DHT11) : DFRobot_DHT11 by DFRobot<br>
+            LCD모니터와 컨버터 : LiquidCrystal_I2C by Frank de Brabandar
+        </p>
+        <p>
+            <video id="video1" controls autoplay width="100%" height="100%" loop poster="" controlsList="nodownload">
+				<source src="./arduino3.mp4" type="video/mp4" />
+				현재의 브라우저는 지원하지 않습니다.
+			</video>
+        </p>
+        <p>
+            <a href="./arduino3.zip" download="Kyus_simpleblog.zip">파일 다운로드</a>
+        </p>
+        <p>
+            <script>
+				var codes = `#include <HCSR04.h>
+#include <Servo.h>
+#include <DFRobot_DHT11.h>
+DFRobot_DHT11 DHT;
+#define DHT11_PIN A0
+#include <Wire.h> 
+#include <LiquidCrystal_I2C.h>
+
+UltraSonicDistanceSensor distanceSensor(2, 3);  // Initialize sensor that uses digital pins 13 and 12.
+Servo myservo;
+int pos = 0;
+int a = 0;
+int b = 0;
+LiquidCrystal_I2C lcd(0x27,16,2);
+
+void setup () {
+  myservo.attach(5);
+  lcd.init();
+  lcd.init();
+  lcd.backlight();
+  lcd.setCursor(0,0);
+  lcd.print("Temp : ");
+  lcd.setCursor(0,1);
+  lcd.print("Hum : ");
+}
+
+void loop () {
+  // Every 500 miliseconds, do a measurement using the sensor and print the distance in centimeters.
+  float distance = distanceSensor.measureDistanceCm();
+  a=b;
+  if (distance>50) {b=0;}
+  else {b=1;}
+  if (a!=b && a==0){
+    for (pos = 0; pos <= 180; pos += 1) { // goes from 0 degrees to 180 degrees
+      // in steps of 1 degree
+      myservo.write(pos);              // tell servo to go to position in variable 'pos'
+      delay(15);                       // waits 15 ms for the servo to reach the position
+    }
+  }
+  else if (a != b && a == 1){
+    for (pos = 180; pos >= 0; pos -= 1) { // goes from 180 degrees to 0 degrees
+      myservo.write(pos);              // tell servo to go to position in variable 'pos'
+      delay(15);                       // waits 15 ms for the servo to reach the position
+    }
+  }
+  DHT.read(DHT11_PIN);
+  lcd.setCursor(8,0);
+  lcd.print(DHT.temperature);
+  lcd.setCursor(7,1);
+  lcd.print(DHT.humidity);
+  delay(500);
+}`
+				document.write(codes);
+			</script>
+        </p>
+    </div>
+</div>
+</body>
+</html>

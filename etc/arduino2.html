@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>Arduino projects</title>
+    <script src="../siteTitle.js"></script>
+    <script src="../tab.js"></script>
+    <link rel="stylesheet" href="../grid.css">
+</head>
+<body>
+<div id="grid">
+    <script src="./left.js"></script>
+    <div id="writingplace">
+        <h1>아두이노2 - 디지털 핀</h1>
+        <p>
+            이 작업은 아두이노를 통해 처음으로 코드를 적용해본 것입니다.<br>
+            스위치의 On/Off를 입력으로 받아들여, 그 출력으로 blue,red,yellow 램프를 제어하게 됩니다.<br>
+            자세한 설명은 다음과 같습니다.<br>
+            스위치와 각 램프들은 아두이노 보드의 디지털 핀에 연결되어 있고<br>
+            스위치의 On/Off에 따라 전류가 흐르고 끊기게 되며, 이를 디지털 핀이 입력으로 인식합니다.<br>
+            이에 따라 각 램프에 연결된 디지털 핀에서 전류가 보낼 지, 안 보낼지를 제어할 수 있습니다.<br><br>
+            영상에서는 스위치를 누르지 않았을 경우 파란 램프가 켜져있고, 빨간 램프가 점멸하며<br>
+            스위치를 누를 경우 모든 램프가 꺼진 뒤, 노란 램프가 두 번 점멸 후 모든 램프가 한 번 점멸합니다.
+        </p>
+        <p>
+            <video id="video1" controls autoplay width="100%" height="100%" loop poster="" controlsList="nodownload">
+				<source src="./arduino2.mp4" type="video/mp4" />
+				현재의 브라우저는 지원하지 않습니다.
+			</video>
+        </p>
+        <p>
+            <a href="./arduino2.zip" download="Kyus_arduino2.zip">파일 다운로드</a>
+        </p>
+        <p>
+            <script>
+				var codes = `const int switchpin = 2;
+const int blue = 3;
+const int red = 6;
+const int yellow = 7;
+
+void setup() {
+  pinMode(switchpin, INPUT);
+  pinMode(blue, OUTPUT);
+  pinMode(red, OUTPUT);
+  pinMode(yellow,OUTPUT);
+}
+
+void loop() {
+  int switch_state = digitalRead(switchpin);
+  if(switch_state == LOW) {
+    digitalWrite(blue, HIGH);
+    digitalWrite(red, HIGH);
+    delay(200);
+    digitalWrite(red, LOW);
+    delay(200);
+  }
+  else {
+    digitalWrite(blue, LOW);
+    digitalWrite(yellow,HIGH);
+    delay(200);
+    digitalWrite(yellow,LOW);
+    delay(200);
+    digitalWrite(yellow,HIGH);
+    delay(200);
+    digitalWrite(yellow,LOW);
+    delay(200);
+    digitalWrite(yellow,HIGH);
+    delay(200);
+    digitalWrite(yellow,LOW);
+    delay(200);
+    digitalWrite(blue,HIGH);
+    digitalWrite(red,HIGH);
+    digitalWrite(yellow,HIGH);
+    delay(200);
+    digitalWrite(blue,LOW);
+    digitalWrite(red,LOW);
+    digitalWrite(yellow,LOW);
+  }
+}`
+				document.write(codes);
+			</script>
+        </p>
+    </div>
+</div>
+</body>
+</html>
