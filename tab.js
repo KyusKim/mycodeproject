@@ -1,4 +1,4 @@
-var tabs = {"파이썬":"python","자바":"java","자바 스크립트":"java script"};
+var tabs = {"파이썬":"python","자바":"java","자바 스크립트":"java script","기타":"etc"};
 document.write("<div id='tabs'>")
 var j=0;
 for (var i in tabs) {
